@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const program = require('commander');
-//const colors = require('colors');
 const fs = require('fs');
 const fetch = require('node-fetch');
 
