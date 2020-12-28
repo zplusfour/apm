@@ -10,7 +10,7 @@ function ApmError(err, type) {
 
 async function fetchPackage(pkg, v) {
   const p = await fetch(`https://registry.zdev1.repl.co/package/${pkg}/${v}/main.adk`).then(res => res.text()).then((body) => {
-    fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  ApmError(err, 'FileCreationError')})
+    fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  ApmError(err.replace('Error: ', ''), 'FileCreationError')})
   })
   .catch((err) => ApmError(err, 'ApmError'));
 }
