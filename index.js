@@ -26,16 +26,26 @@ async function fetchPackage(pkg, v) {
 }
 
 function init() {
+  if (fs.existsSync("./packages")) return console.log("Already initialized!".underline.yellow);
+
   fs.mkdirSync('./packages');
   console.log("Done!".underline.green);
 }
 
 function uninstall(pkg) {
-  fs.rmdir('./packages/'+pkg, (err) => {
-    if(err) ApmError(err, 'DirectoryDeletionError');
-    else{
-      console.log('Done!'.underline.green);
+  fs.readdir(`./packages/${pkg}`, (err, data) => {
+    if(err) ApmError(err, 'ModuleDeletionError');
+
+    for (const mod of data) {
+      fs.unlinkSync(`./packages/${pkg}/${mod}`);
     }
+    
+    fs.rmdir(`./packages/${pkg}`, (err) => {
+      if(err) ApmError(err, "ModuleDeletionError");
+      else{
+        console.log("Done!".underline.green);
+      }
+    });
   });
 }
 
