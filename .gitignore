@@ -1,5 +1,3 @@
 node_modules/
 packages/
-package.json
-package-lock.json
-env.ps1
+./env.ps1
