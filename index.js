@@ -14,15 +14,15 @@ async function fetchPackage(pkg, v) {
   const p = await fetch(`${PACKAGE_URL}/${pkg}/${v}/`).then(res => res.json()).then((body) => {
     //fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  {ApmError(err, 'FileCreationError')}else{console.log("Done!".underline.blue);}});
     fs.mkdir(`./packages/${pkg}/`, (err) => {
-      if(err) ApmError(err, 'ModuleCreationError');
+      if(err) ApmError(err, 'PackageCreationError');
     });
     body.forEach(async (mod) => {
       const modata = await fetch(`${PACKAGE_URL}/${pkg}/${v}/${mod}`).then(res => res.text()).then((body) => {
         fs.writeFileSync(`./packages/${pkg}/${mod}`, body);
-      })
+      });
     });
   })
-  .catch((err) => ApmError(err, 'ApmError'));
+  .catch((err) => ApmError('Could not fetch this package', 'ApmError'));
 }
 
 function init() {
@@ -34,14 +34,14 @@ function init() {
 
 function uninstall(pkg) {
   fs.readdir(`./packages/${pkg}`, (err, data) => {
-    if(err) ApmError(err, 'ModuleDeletionError');
+    if(err) ApmError("Cannot find this package", 'PackageError');
 
     for (const mod of data) {
       fs.unlinkSync(`./packages/${pkg}/${mod}`);
     }
     
     fs.rmdir(`./packages/${pkg}`, (err) => {
-      if(err) ApmError(err, "ModuleDeletionError");
+      if(err) ApmError("We went into package deletion errors", "PackageDeletionError");
       else{
         console.log("Done!".underline.green);
       }
