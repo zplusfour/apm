@@ -1,5 +1,4 @@
 build:
-	cat index.js | npx nexe
-
-clean:
-	rm *.exe
+	npx pkg . --target host --output bin/apm.exe --debug
+#clean:
+	#rm *.exe

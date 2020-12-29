@@ -8,11 +8,16 @@
   },
   "keywords": [],
   "author": "",
+  "bin": "./index.js",
+  "preferGlobal": true,
   "license": "ISC",
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^6.2.1",
     "nexe": "^3.3.7",
     "node-fetch": "^2.6.1"
+  },
+  "pkg": {
+    "assets": "node_modules/**/*"
   }
 }
