@@ -3,7 +3,6 @@ const program = require('commander');
 const fs = require('fs');
 const colors = require('colors');
 const fetch = require('node-fetch');
-
 const PACKAGE_URL = "https://registry.zdev1.repl.co/package";
 
 function ApmError(err, type) {
