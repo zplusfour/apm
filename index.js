@@ -9,13 +9,15 @@ function ApmError(err, type) {
 
 async function fetchPackage(pkg, v) {
   const p = await fetch(`https://registry.zdev1.repl.co/package/${pkg}/${v}/main.adk`).then(res => res.text()).then((body) => {
-    fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  ApmError(err.replace('Error: ', ''), 'FileCreationError')})
+    fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  ApmError(err.replace('Error: ', ''), 'FileCreationError')});
+    console.log("Done!");
   })
   .catch((err) => ApmError(err, 'ApmError'));
 }
 
 function init() {
   fs.mkdirSync('./packages');
+  console.log("Done!");
 }
 
 program
@@ -31,6 +33,6 @@ program
 program
   .command("uninstall <package>")
   .description("Uninstall a package")
-  .action((package) => {fs.unlinkSync(`./packages/${package}.adk`)})
+  .action((package) => {fs.unlinkSync(`./packages/${package}.adk`);console.log("Done!")})
 
 program.parse(process.argv);
