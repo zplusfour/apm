@@ -13,7 +13,7 @@ async function fetchPackage(pkg, v) {
   const p = await fetch(`${PACKAGE_URL}/${pkg}/${v}/`).then(res => res.json()).then((body) => {
     //fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  {ApmError(err, 'FileCreationError')}else{console.log("Done!".underline.blue);}});
     fs.mkdir(`./packages/${pkg}/`, (err) => {
-      if(err) ApmError(err, 'PackageCreationError');
+      if(err) ApmError(err, 'PackageInstallationError');
     });
     body.forEach(async (mod) => {
       const modata = await fetch(`${PACKAGE_URL}/${pkg}/${v}/${mod}`).then(res => res.text()).then((body) => {
