@@ -27,7 +27,7 @@ For example https://registry.zdev1.repl.co/package/std/1.0.0/main.adk (NOTE: std
 Type in the terminal:
 
 ```sh
-$ apm install <pkg> <version>
+$ apm install <pkg>@<version>
 ```
 
 and then check your `packages` folder, you'll see your package and in your package folder you'll have the package files.
