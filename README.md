@@ -1,6 +1,6 @@
 ## The **A**ardvark programming language **P**ackage **M**anager
 
-[![Build status](https://ci.appveyor.com/api/projects/status/a8y65qw59q4dr0hl?svg=true)](https://ci.appveyor.com/project/zplusfour/apm)
+[![Build status](https://ci.appveyor.com/api/projects/status/a8y65qw59q4dr0hl?svg=true)](https://ci.appveyor.com/project/zplusfour/apm)&nbsp;[![apm](https://circleci.com/gh/zplusfour/apm.svg?style=shield)](https://circleci.com/gh/zplusfour/apm)
 
 The Aardvark programming language package-manager/cli !<br>
 **DOWNLOAD**: https://github.com/zplusfour/apm/releases/
