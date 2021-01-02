@@ -12,9 +12,9 @@ class Build {
 
     if (!fs.existsSync('./num.json')) fs.writeFileSync('./num.json', 0);
     /****/
-    const data = atob(fs.readFileSync('./num.json'));
-
-    data += 1;
+    var data = atob(fs.readFileSync('./num.json'));
+    var n = parseInt(data) + 1;
+    fs.writeFileSync('./num.json', n);
     return (`
       BUILD:
 
