@@ -6,3 +6,9 @@ build-lin:
 
 build-macos:
 	npx pkg . --target macos --output bin/apm.app
+
+build-all:
+	make build; make build-lin; make build-macos
+
+clean-zip:
+	rm -f bin/*.zip

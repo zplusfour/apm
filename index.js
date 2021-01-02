@@ -11,17 +11,8 @@ function ApmError(err, type) {
 }
 
 async function fetchPackage(pkg, v) {
-  const p = await fetch(`${PACKAGE_URL}/${pkg}/${v}/`).then(res => res.json()).then((body) => {
-    //fs.writeFile(`./packages/${pkg}.adk`, body, (err) => {if(err)  {ApmError(err, 'FileCreationError')}else{console.log("Done!".underline.blue);}});
-    fs.mkdir(`./packages/${pkg}/`, (err) => {
-      if(err) ApmError(err, 'PackageInstallationError');
-    });
-    body.forEach(async (mod) => {
-      const modata = await fetch(`${PACKAGE_URL}/${pkg}/${v}/${mod}`).then(res => res.text()).then((body) => {
-        fs.writeFileSync(`./packages/${pkg}/${mod}`, body);
-      });
-    });
-  })
+  const fullname = `${pkg}@${v}`
+  const p = (await fetch(`${PACKAGE_URL}/${fullname}/`)).json()
   .catch((err) => ApmError('Could not fetch this package', 'ApmError'));
 }
 
@@ -73,7 +64,8 @@ function readDir(path = ".", ignoreFiles = []) {
     } else if (file.isFile()) {
       newFiles.push({
         type: "File",
-        name: file.name
+        name: file.name,
+        data: fs.readFileSync(filePath, "utf-8")
       });
     }
   }
@@ -82,7 +74,7 @@ function readDir(path = ".", ignoreFiles = []) {
 }
 
 async function publish(pkgname, version, files) {
-  const URL = 'https://registry.zdev1.repl.co/api/upload';
+  const URL = 'https://registry010.theboys619.repl.co/api/upload';
 
   const data = {
     pkgname,
