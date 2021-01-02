@@ -4,7 +4,7 @@ const fs = require('fs');
 const Path = require("path");
 const colors = require('colors');
 const fetch = require('node-fetch');
-const PACKAGE_URL = "https://registry.zdev1.repl.co/package";
+const PACKAGE_URL = "https://registry010.theboys619.repl.co/package";
 
 function ApmError(err, type) {
   console.log(`${type.underline.red}: ${err}`);
