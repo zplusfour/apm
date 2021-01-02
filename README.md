@@ -40,6 +40,20 @@ To uninstall a package, type in the terminal:
 $ apm uninstall <pkg>
 ```
 
+### 4. Publish a package
+
+We have added a feature, you can publish packages with apm!
+
+```sh
+$ apm publish pkgname@version
+```
+
+and then you can install it by doing:
+
+```sh
+$ apm install pkgname@version
+```
+
 
 ## Developer Tools
 
