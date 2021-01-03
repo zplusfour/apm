@@ -4,16 +4,23 @@ const atob = require('atob');
 // lets make it very complex
 
 class Build {
-  constructor(msg) {
+  /**
+  * @param msg {string}
+  */
+  constructor(msg) {  
     this.msg = msg;
   }
 
+  /**
+   * Creates a new CI build
+   * @returns a new build
+   */
   build() {
 
     if (!fs.existsSync('./num.json')) fs.writeFileSync('./num.json', 0);
     /****/
     var data = atob(fs.readFileSync('./num.json'));
-    var n = parseInt(data) + 1;
+    var n = parseInt(data, 10) + 1;
     fs.writeFileSync('./num.json', n);
     return (`
       BUILD:
