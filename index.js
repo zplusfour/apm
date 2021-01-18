@@ -6,9 +6,21 @@ const colors = require('colors');
 const fetch = require('node-fetch');
 const PACKAGE_URL = "https://registry010.theboys619.repl.co/package";
 
+/**
+ * @param err {string} Error
+ * @param type {string} Error type
+ * @returns {string}
+ */
+
 function ApmError(err, type) {
   console.log(`${type.underline.red}: ${err}`);
 }
+
+/**
+ * @param pkg {string} Package name
+ * @param v {string} Package version
+ * @returns {Promise<void>}
+ */
 
 async function fetchPackage(pkg, v) {
   const fullname = `${pkg}@${v}`
@@ -16,12 +28,21 @@ async function fetchPackage(pkg, v) {
   .catch((err) => ApmError('Could not fetch this package', 'ApmError'));
 }
 
+/**
+ * @returns {string} Creates a new project
+ */
+
 function init() {
   if (fs.existsSync("./packages")) return console.log("Already initialized!".underline.yellow);
 
   fs.mkdirSync('./packages');
   console.log("Done!".underline.green);
 }
+
+/**
+ * @param pkg Package name
+ * @returns {string} Uninstalls a package
+ */
 
 function uninstall(pkg) {
   fs.readdir(`./packages/${pkg}`, (err, data) => {
@@ -40,6 +61,11 @@ function uninstall(pkg) {
   });
 }
 
+/**
+ * @param path {string} Path to `.apmignore`
+ * @returns Reads the `.apmignore` file
+ */
+
 function readIgnoreFile(path = "./.apmignore") {
   if (!fs.existsSync(path)) return [];
   const fileData = fs.readFileSync(path, "UTF-8");
@@ -47,6 +73,12 @@ function readIgnoreFile(path = "./.apmignore") {
 
   return paths.map(ignoreFile => Path.resolve(path.replace(".apmignore", ""), ignoreFile));
 }
+
+/**
+ * @param path {string} Path to directory
+ * @param ignoreFiles {[]} `apmignore` files list in the current directory
+ * @returns {typeof newFiles} newfiles
+ */
 
 function readDir(path = ".", ignoreFiles = []) {
   const files = fs.readdirSync(path, { withFileTypes: true });
@@ -73,6 +105,13 @@ function readDir(path = ".", ignoreFiles = []) {
   return newFiles;
 }
 
+/**
+ * @param pkgname {string} Package name
+ * @param version {string} Package version
+ * @param files {string[]} Package files
+ * @returns {Promise<void>}
+ */
+
 async function publish(pkgname, version, files) {
   const URL = 'https://registry010.theboys619.repl.co/api/upload';
 
@@ -82,7 +121,7 @@ async function publish(pkgname, version, files) {
     files
   };
 
-  const pub = await fetch(URL, {
+  const req = await fetch(URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
