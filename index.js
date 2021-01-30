@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-const program = require('commander');
-const fs = require('fs');
+const program = require("commander");
+const fs = require("fs");
 const Path = require("path");
-const colors = require('colors');
-const fetch = require('node-fetch');
+const colors = require("colors");
+const fetch = require("node-fetch");
+
+
 const PACKAGE_URL = "https://registry010.theboys619.repl.co/package";
 
 /**
@@ -23,9 +25,10 @@ function ApmError(err, type) {
  */
 
 async function fetchPackage(pkg, v) {
-  const fullname = `${pkg}@${v}`
-  const p = (await fetch(`${PACKAGE_URL}/${fullname}/`)).json()
-  .catch((err) => ApmError('Could not fetch this package', 'ApmError'));
+  const fullname = `${pkg}@${v}`;
+  const p = (await fetch(`${PACKAGE_URL}/${fullname}/`))
+    .json()
+    .catch((err) => ApmError(err.message, "ApmError"));
 }
 
 /**
@@ -33,9 +36,10 @@ async function fetchPackage(pkg, v) {
  */
 
 function init() {
-  if (fs.existsSync("./packages")) return console.log("Already initialized!".underline.yellow);
+  if (fs.existsSync("./packages"))
+    return console.log("Already initialized!".underline.yellow);
 
-  fs.mkdirSync('./packages');
+  fs.mkdirSync("./packages");
   console.log("Done!".underline.green);
 }
 
@@ -46,15 +50,19 @@ function init() {
 
 function uninstall(pkg) {
   fs.readdir(`./packages/${pkg}`, (err, data) => {
-    if(err) ApmError("Cannot find this package", 'PackageError');
+    if (err) ApmError(err.message, "PackageError");
 
     for (const mod of data) {
       fs.unlinkSync(`./packages/${pkg}/${mod}`);
     }
-    
+
     fs.rmdir(`./packages/${pkg}`, (err) => {
-      if(err) ApmError("We went into package deletion errors", "PackageDeletionError");
-      else{
+      if (err)
+        ApmError(
+          err.message,
+          "PackageDeletionError"
+        );
+      else {
         console.log("Done!".underline.green);
       }
     });
@@ -71,7 +79,9 @@ function readIgnoreFile(path = "./.apmignore") {
   const fileData = fs.readFileSync(path, "UTF-8");
   const paths = fileData.replace(/\r/g, "").split("\n");
 
-  return paths.map(ignoreFile => Path.resolve(path.replace(".apmignore", ""), ignoreFile));
+  return paths.map((ignoreFile) =>
+    Path.resolve(path.replace(".apmignore", ""), ignoreFile)
+  );
 }
 
 /**
@@ -90,14 +100,23 @@ function readDir(path = ".", ignoreFiles = []) {
   for (const file of files) {
     const filePath = Path.resolve(path, file.name);
 
-    if (file.name == ".git" || ignoreFiles.includes(filePath) || file.name == "node_modules") continue;
+    if (
+      file.name == ".git" ||
+      ignoreFiles.includes(filePath) ||
+      file.name == "node_modules"
+    )
+      continue;
     if (file.isDirectory()) {
-      newFiles.push({ type: "Directory", name: file.name, files: readDir(filePath, ignoreFiles) });
+      newFiles.push({
+        type: "Directory",
+        name: file.name,
+        files: readDir(filePath, ignoreFiles),
+      });
     } else if (file.isFile()) {
       newFiles.push({
         type: "File",
         name: file.name,
-        data: fs.readFileSync(filePath, "utf-8")
+        data: fs.readFileSync(filePath, "utf-8"),
       });
     }
   }
@@ -113,48 +132,61 @@ function readDir(path = ".", ignoreFiles = []) {
  */
 
 async function publish(pkgname, version, files) {
-  const URL = 'https://registry010.theboys619.repl.co/api/upload';
+  const URL = "https://registry010.theboys619.repl.co/api/upload";
 
   const data = {
     pkgname,
     version,
-    files
+    files,
   };
 
   const req = await fetch(URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  }).then((res) => res.text()).then((body) => {return body}).catch((err) => {return err});
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.text())
+    .then((body) => {
+      return body;
+    })
+    .catch((err) => {
+      return err;
+    });
 }
 
 program
   .command("init")
   .description("Creates a `packages` directory")
-  .action(() => {init()})
+  .action(() => {
+    init();
+  });
 
 program
   .command("install <package>")
   .description("Install a package")
   .action((pkg) => {
     pkg = pkg.split("@");
-    try{
-      fetchPackage(pkg[0], pkg[1])
+    try {
+      fetchPackage(pkg[0], pkg[1]);
     } catch (err) {
-      ApmError('Could not add package', 'PackageInstallationError');
+      ApmError("Could not add package", "PackageInstallationError");
     }
   });
 
 program
   .command("uninstall <package>")
   .description("Uninstall a package")
-  .action((pkg) => {uninstall(pkg)})
+  .action((pkg) => {
+    uninstall(pkg);
+  });
 
 program
   .command("publish <package> [path]")
   .description("Publish a package")
-  .action((pkg, path = ".") => {publish(pkg.split("@")[0], pkg.split("@")[1], readDir(path))})
+  .action((pkg, path = ".") => {
+    publish(pkg.split("@")[0], pkg.split("@")[1], readDir(path));
+  });
 
 program.parse(process.argv);

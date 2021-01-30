@@ -16,7 +16,8 @@
     "colors": "^1.4.0",
     "commander": "^6.2.1",
     "nexe": "^3.3.7",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "ntqdm": "^1.0.0"
   },
   "pkg": {
     "assets": "node_modules/**/*"
