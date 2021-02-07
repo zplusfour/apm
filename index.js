@@ -1,11 +1,11 @@
 #!/usr/bin/env node
+
 const program = require("commander");
 const fs = require("fs");
 const Path = require("path");
-const colors = require("colors");
 const fetch = require("node-fetch");
 
-
+require("colors");
 const PACKAGE_URL = "https://registry010.theboys619.repl.co/package";
 
 /**
@@ -57,11 +57,7 @@ function uninstall(pkg) {
     }
 
     fs.rmdir(`./packages/${pkg}`, (err) => {
-      if (err)
-        ApmError(
-          err.message,
-          "PackageDeletionError"
-        );
+      if (err) ApmError(err.message, "PackageDeletionError");
       else {
         console.log("Done!".underline.green);
       }

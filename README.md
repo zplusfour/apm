@@ -5,19 +5,22 @@
 The Aardvark programming language package-manager/cli !<br>
 **DOWNLOAD**: https://github.com/zplusfour/apm/releases/
 
-
 ## Documentation
+
 **NOTE**: Once you've installed APM, you should edit your environment variables to use APM as a cli.
 
 ### 1. Create a project
 
 If you aren't interested in packages, and you need to make your own package, you can skip to [this part](#developer-tools)
-***
+
+---
+
 Type this command in your terminal, to initialize the `/packages` folder.
 
 ```sh
 $ apm init
 ```
+
 and then check out your file tree, and you'll see a `packages` folder.
 
 ### 2. Install a package
@@ -56,14 +59,12 @@ and then you can install it by doing:
 $ apm install pkgname@version
 ```
 
-
 ## Developer Tools
 
 After you learned Aardvark, do you have any ideas for a project? well, no problem, you can publish your Aardvark packages!<br>
 --> https://registry.zdev1.repl.co/publish (we'll work on styling later)
 
 Name your package, add your version, and attach your `.adk` files! yes! you can attach multiple files!
-
 
 ## Closing
 
